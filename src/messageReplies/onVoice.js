@@ -13,7 +13,7 @@ export const onVoiceMessageReply = async (ctx) => {
         const mp3Path = await ogg.toMp3(oggPath, userId)
 
         const text = await openai.transcription(mp3Path)
-        await ctx.reply(code(`Твой запрос: ${text}`))
+         // ctx.reply(code(`Твой запрос: ${text}`))
 
         ctx.session.messages.push({role: openai.roles.USER, content: text})
 
@@ -27,6 +27,7 @@ export const onVoiceMessageReply = async (ctx) => {
 
         await ctx.reply(response.content)
     } catch (e) {
+        ctx.reply(`Что-то пошло не так: ${e.message}`)
         console.log('Error while voice message', e.message)
     }
 }

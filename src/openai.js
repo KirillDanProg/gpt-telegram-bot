@@ -10,9 +10,7 @@ class Openai {
     }
 
     constructor(apiKey) {
-        const configuration = new Configuration({
-            apiKey
-        })
+        const configuration = new Configuration({apiKey})
         this.openai = new OpenAIApi(configuration)
     }
 
@@ -34,6 +32,18 @@ class Openai {
             return response.data.text
         } catch (e) {
             console.log('error while transcription')
+        }
+    }
+
+    async createImage(prompt) {
+        try {
+            return await this.openai.createImage({
+                prompt,
+                n: 1,
+                size: "512x512",
+            })
+        } catch (e) {
+            console.log('error while creating image')
         }
     }
 }

@@ -5,6 +5,7 @@ import {openai} from "../openai.js";
 
 export const onTextMessageReply = async (ctx) => {
     ctx.session ??= INITIAL_SESSION
+    console.log('voice handler')
     try {
         await ctx.reply(code('Принято. Ждем...'))
 
