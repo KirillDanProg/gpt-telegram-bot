@@ -4,8 +4,6 @@ import {message} from 'telegraf/filters'
 import {INITIAL_SESSION} from "./consts.js";
 import {onTextMessageReply} from "./messageReplies/onText.js";
 import {onVoiceMessageReply} from "./messageReplies/onVoice.js";
-import axios from 'axios'
-import {openai} from "./openai.js";
 
 
 const bot = new Telegraf(config.get('TELEGRAM_API_KEY'))
@@ -14,6 +12,8 @@ bot.use(session())
 
 bot.command(['new', 'start'], async (ctx) => {
     ctx.session = INITIAL_SESSION
+    ctx.session.imageSession = []
+    ctx.session.awaitingInput = false
     await ctx.reply('Жду запросик...')
 })
 
@@ -22,20 +22,7 @@ bot.command('generate', async (ctx) => {
     ctx.session.awaitingInput = true
 });
 
-bot.on('text', async (ctx) => {
-    if (ctx.message.from.id === ctx.message.from.id) {
-        const text = ctx.message.text;
-        ctx.session.awaitingInput = false;
-        try {
-            const response = await openai.createImage(text);
-            const imageUrl = response.data.data[0].url;
-            await ctx.replyWithPhoto(imageUrl);
-        } catch (error) {
-            console.error('Error generating image:', error);
-            ctx.reply('Failed to generate image. Please try again later.');
-        }
-    }
-})
+// bot.on(message('text'), onGenerateImageReply)
 
 bot.on(message('voice'), onVoiceMessageReply)
 
