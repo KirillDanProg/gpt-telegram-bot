@@ -1,6 +1,5 @@
 import {INITIAL_SESSION} from "../consts.js";
 import {code} from "telegraf/format";
-import {ogg} from "../ogg.js";
 import {openai} from "../openai.js";
 import {generateImageReply} from "./onGenerateImage.js";
 
