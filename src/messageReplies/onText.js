@@ -1,12 +1,12 @@
-import {INITIAL_SESSION} from "../consts.js";
+import {INITIAL_SESSION, SESSION_MODE} from "../consts.js";
 import {code} from "telegraf/format";
 import {openai} from "../openai.js";
-import {generateImageReply} from "./onGenerateImage.js";
+import {generateImageOnText} from "./voiceMessageHandler/generateImage.js";
 
 export const onTextMessageReply = async (ctx) => {
     ctx.session ??= INITIAL_SESSION
-    if (ctx.session.awaitingInput) {
-        generateImageReply(ctx)
+    if (ctx.session.mode === SESSION_MODE.IMAGE_GEN) {
+        generateImageOnText(ctx)
     } else {
         try {
             await ctx.reply(code('Принято. Ждем...'))

@@ -1,7 +1,7 @@
 import {Telegraf, session} from 'telegraf'
 import config from 'config'
 import {message} from 'telegraf/filters'
-import {INITIAL_SESSION} from "./consts.js";
+import {INITIAL_SESSION, SESSION_MODE} from "./consts.js";
 import {onTextMessageReply} from "./messageReplies/onText.js";
 import {onVoiceMessageReply} from "./messageReplies/onVoice.js";
 
@@ -13,15 +13,21 @@ bot.use(session())
 bot.command(['new', 'start'], async (ctx) => {
     ctx.session = INITIAL_SESSION
     ctx.session.imageSession = []
-    ctx.session.awaitingInput = false
+    ctx.session.mode = SESSION_MODE.DEFAULT
+    // ctx.session.awaitingInput = false
+    // ctx.session.translateMode = false
     await ctx.reply('Жду запросик...')
 })
 
 bot.command('generate', async (ctx) => {
-    await ctx.reply('Please enter the text for image generation:');
-    ctx.session.awaitingInput = true
+    await ctx.reply('Введите текс для генерации картинки');
+    ctx.session.mode = SESSION_MODE.IMAGE_GEN
 });
 
+bot.command('translate', async (ctx) => {
+    await ctx.reply('Для перевода запиши аудио сообщение');
+    ctx.session.mode = SESSION_MODE.TRANSLATION
+});
 // bot.on(message('text'), onGenerateImageReply)
 
 bot.on(message('voice'), onVoiceMessageReply)

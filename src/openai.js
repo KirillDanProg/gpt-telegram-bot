@@ -35,6 +35,18 @@ class Openai {
         }
     }
 
+    async translation(filePath) {
+        try {
+            const response = await this.openai.createTranslation(
+                createReadStream(filePath),
+                "whisper-1"
+            );
+            return response.data.text
+        } catch (e) {
+            console.log('error while translation')
+        }
+    }
+
     async createImage(prompt) {
         try {
             return await this.openai.createImage({

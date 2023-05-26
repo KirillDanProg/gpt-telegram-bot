@@ -1,6 +1,6 @@
-import {openai} from "../openai.js";
+import {openai} from "../../openai.js";
 
-export const generateImageReply = async (ctx) => {
+export const generateImageOnText = async (ctx) => {
     if (ctx.message.from.id === ctx.message.from.id) {
         const text = ctx.message.text;
         ctx.session.imageSession.push(text)
