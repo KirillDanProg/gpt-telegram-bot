@@ -1,6 +1,4 @@
-export const INITIAL_SESSION = {
-    messages: []
-}
+export const INITIAL_SESSION = {}
 
 export const SESSION_MODE = {
     TRANSLATION: 'translate',

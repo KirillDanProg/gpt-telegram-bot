@@ -1,36 +1,45 @@
 import {Telegraf, session} from 'telegraf'
-// import config from 'config'
+import config from 'config'
 import {message} from 'telegraf/filters'
-import {INITIAL_SESSION, SESSION_MODE} from "./consts.js";
-import {onTextMessageReply} from "./messageReplies/onText.js";
-import {onVoiceMessageReply} from "./messageReplies/onVoice.js";
+import {INITIAL_SESSION, SESSION_MODE} from "./consts/consts.js";
+import {onTextMessageReply} from "./messageHandlers/onText.js";
+import {onVoiceMessageReply} from "./messageHandlers/onVoice.js";
 import * as dotenv from 'dotenv'
+import {initOnCommand} from "./utils/initOnCommand.js";
 
-dotenv.config()
+// dotenv.config()
 
-const bot = new Telegraf(process.env.TELEGRAM_API_KEY)
+// const bot = new Telegraf(process.env.TELEGRAM_API_KEY)
+const bot = new Telegraf(config.get('TELEGRAM_API_KEY'))
 
 bot.use(session())
 
 bot.command(['new', 'start'], async (ctx) => {
-    ctx.session = INITIAL_SESSION
-    ctx.session.imageSession = []
-    ctx.session.mode = SESSION_MODE.DEFAULT
-    // ctx.session.awaitingInput = false
-    // ctx.session.translateMode = false
-    await ctx.reply('Жду запросик...')
+    const chatId = ctx.chat.id
+    ctx.session = new Map()
+    if (!ctx.session.has(chatId)) {
+        ctx.session.set(chatId, {
+            messages: [],
+            imageSession: [],
+            mode: SESSION_MODE.DEFAULT
+        })
+    }
+    await ctx.reply('Жду запросик 💬')
 })
 
 bot.command('generate', async (ctx) => {
-    await ctx.reply('Введите текс для генерации картинки');
-    ctx.session.mode = SESSION_MODE.IMAGE_GEN
+    initOnCommand(ctx, {
+        message: 'Введите описание картинки 🌄️',
+        mode: SESSION_MODE.IMAGE_GEN
+    })
 });
 
 bot.command('translate', async (ctx) => {
-    await ctx.reply('Для перевода запиши аудио сообщение');
-    ctx.session.mode = SESSION_MODE.TRANSLATION
+    initOnCommand(ctx, {
+        message: 'Запиши аудио сообщение 🔊',
+        mode: SESSION_MODE.TRANSLATION
+    })
 });
-// bot.on(message('text'), onGenerateImageReply)
 
 bot.on(message('voice'), onVoiceMessageReply)
 
