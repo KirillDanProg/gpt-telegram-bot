@@ -7,7 +7,6 @@ import {oggConverter} from "../utils/oggConverter.js";
 import {generateImage} from "./voiceMessageHandler/generateImage.js";
 
 export const onVoiceMessageReply = async (ctx) => {
-    ctx.session ??= INITIAL_SESSION
     try {
         await ctx.reply(code('Принято. Ждем...'))
         const link = await ctx.telegram.getFileLink(ctx.message.voice.file_id)
