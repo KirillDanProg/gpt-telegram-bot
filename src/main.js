@@ -1,15 +1,11 @@
 import {Telegraf, session} from 'telegraf'
 import config from 'config'
 import {message} from 'telegraf/filters'
-import {INITIAL_SESSION, SESSION_MODE} from "./consts/consts.js";
+import {SESSION_MODE} from "./consts/consts.js";
 import {onTextMessageReply} from "./messageHandlers/onText.js";
 import {onVoiceMessageReply} from "./messageHandlers/onVoice.js";
-import * as dotenv from 'dotenv'
 import {initOnCommand} from "./utils/initOnCommand.js";
 
-// dotenv.config()
-
-// const bot = new Telegraf(process.env.TELEGRAM_API_KEY)
 const bot = new Telegraf(config.get('TELEGRAM_API_KEY'))
 
 bot.use(session())
