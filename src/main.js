@@ -6,7 +6,7 @@ import {onTextMessageReply} from "./messageHandlers/onText.js";
 import {onVoiceMessageReply} from "./messageHandlers/onVoice.js";
 import {initOnCommand} from "./utils/initOnCommand.js";
 
-const telegramApiKey = config.get('TELEGRAM_API_KEY')
+const telegramApiKey = process.env.NODE_ENV === "production" ? process.env.TELEGRAM_API_KEY : config.get('TELEGRAM_API_KEY')
 const bot = new Telegraf(telegramApiKey)
 
 
