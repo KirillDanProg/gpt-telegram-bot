@@ -23,7 +23,7 @@ class Openai {
             })
             return response.data.choices[0].message
         } catch (e) {
-            console.log('error while chat with gpt')
+            console.log('error while chat with gpt', e.message)
         }
     }
 
