@@ -4,7 +4,7 @@ module.exports = {
     apps: [
         {
             name: 'gpt-tg-bot',
-            script: './src/main.js',
+            script: 'src/main.js',
             env: {
                 NODE_ENV: 'production',
                 TELEGRAM_API_KEY: '6053708681:AAFIsQ2oQhNPpgne1QphDN5hU_LOl-8mEuc',
