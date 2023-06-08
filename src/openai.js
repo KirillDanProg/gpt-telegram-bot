@@ -2,9 +2,6 @@ import {Configuration, OpenAIApi} from 'openai'
 import config from "config";
 import {createReadStream} from 'fs'
 
-import dotenv from 'dotenv'
-
-dotenv.config()
 
 class Openai {
     roles = {
@@ -64,5 +61,5 @@ class Openai {
     }
 }
 
-const openApiKey = process.env.NODE_ENV === "production" ? process.env.OPENAI_API_KEY : config.get('OPENAI_API_KEY')
+const openApiKey = config.get('OPENAI_API_KEY')
 export const openai = new Openai(openApiKey)

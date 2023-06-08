@@ -17,8 +17,5 @@ ENV PORT=3000
 
 EXPOSE $PORT
 
-# Install pm2 globally
-RUN npm install -g pm2
-
 # Установка команды запуска приложения
-CMD ["pm2-runtime", "start", "./src/main.js", "--name", "tg-bot"]
+CMD ["npm", "start"]
