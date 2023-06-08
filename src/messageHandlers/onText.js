@@ -18,6 +18,8 @@ export const onTextMessageReply = async (ctx) => {
                 content: ctx.message.text
             })
 
+            console.log(ctx.session.get(chatId).messages)
+
             const response = await openai.chat(ctx.session.get(chatId).messages)
 
             ctx.session.get(chatId).messages.push({
