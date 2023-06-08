@@ -62,4 +62,6 @@ class Openai {
 }
 
 const openApiKey = process.env.NODE_ENV === 'production' ? process.env.OPENAI_API_KEY : config.get('OPENAI_API_KEY')
+console.log(openApiKey)
+console.log(process.env.NODE_ENV)
 export const openai = new Openai(openApiKey)
