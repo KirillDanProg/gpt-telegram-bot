@@ -9,7 +9,6 @@ import {initOnCommand} from "./utils/initOnCommand.js";
 const telegramApiKey = config.get('TELEGRAM_API_KEY')
 const bot = new Telegraf(telegramApiKey)
 
-
 bot.use(session())
 
 bot.command(['new', 'start'], async (ctx) => {
@@ -37,6 +36,10 @@ bot.command('translate', async (ctx) => {
         message: 'Запиши аудио сообщение 🔊',
         mode: SESSION_MODE.TRANSLATION
     })
+});
+
+bot.catch(async (err, ctx) => {
+   await ctx.reply('An error occurred. Try again');
 });
 
 bot.on(message('voice'), onVoiceMessageReply)
